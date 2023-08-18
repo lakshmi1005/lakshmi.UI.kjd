@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 const apiUrl = "https://zm6zxgq6hyhe3smi5krzsrk2fu0iidhh.lambda-url.us-east-1.on.aws/";
 
 const rowData = [
@@ -16,9 +18,37 @@ const rowData = [
         "imageUrl": "https://d2vcaowhp5v7jq.cloudfront.net/skhokho.jpeg",
         "description": "Helping South Africans become #CashCleva with Skhokho and TymeBank",
         "title": "Skhokho seMali"
+    },
+    {
+        "imageUrl": "https://d2vcaowhp5v7jq.cloudfront.net/dragon.jpeg",
+        "description": "Grow your savings treasure and grow your dragon.",
+        "title": "The Savings Jar"
+    },
+    {
+        "imageUrl": "https://d2vcaowhp5v7jq.cloudfront.net/skhokho.jpeg",
+        "description": "Helping South Africans become #CashCleva with Skhokho and TymeBank",
+        "title": "Skhokho seMali"
     }
 ]
-export default function Slider() {
+const responsive = {
+    desktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 3,
+        slidesToSlide: 3
+    },
+    tablet: {
+        breakpoint: { max: 1024, min: 768 },
+        items: 3,
+        slidesToSlide: 3
+    },
+    mobile: {
+        breakpoint: { max: 767, min: 464 },
+        items: 2,
+        slidesToSlide: 1
+    }
+};
+
+const Slider = () => {
     const [dataList, setDataList] = useState(rowData);
 
     useEffect(() => {
@@ -32,17 +62,27 @@ export default function Slider() {
     }, [])
 
     return (
-        <div className="card-container"> 
-            {console.log("dataList", dataList)}
-            {dataList && dataList.map((value, index) => 
-                <div className="card" style={{background:`url(${value.imageUrl})`}} >
-                    <div className="card-body">
-                        <div className="line"></div>
-                        <p className="cardtext">{value.title}</p>
-                        <p className="ccontent">{value.description}</p>
-                    </div>
-                </div>)}
+        <div className="parent">
+            <Carousel
+                responsive={responsive}
+                autoPlay={true}
+                swipeable={true}
+                draggable={true}
+                showDots={true}
+                infinite={true}
+                partialVisible={false}
+                dotListClass="custom-dot-list-style"
+            >
+                {dataList && dataList.map((value, index) =>
+                    <div key={index} className="slider card" style={{ background: `url(${value.imageUrl})` }} >
+                        <div className="card-body">
+                            <div className="line"></div>
+                            <p className="cardtext">{value.title}</p>
+                            <p className="ccontent">{value.description}</p>
+                        </div>
+                    </div>)}
+            </Carousel>
         </div>
-
-    )
-}
+    );
+};
+export default Slider;  
